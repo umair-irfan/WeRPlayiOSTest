@@ -8,10 +8,20 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    let apiService: BaseServiceProtocol = BaseService()
+    private var breeds : [String]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        apiService.fetchBreeds { result in
+            switch result {
+            case .success(let breeds):
+                self.breeds = breeds.getBreedsNameList()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 
 
